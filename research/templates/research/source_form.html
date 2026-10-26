@@ -1,0 +1,30 @@
+```html
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Нов източник — StoryDesk</title>
+</head>
+<body>
+    <header>
+        <h1>StoryDesk</h1>
+        <p>Добавяне на журналистически източник</p>
+    </header>
+
+    <main>
+        <h2>Нов източник</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit">Запази източника</button>
+        </form>
+
+        <p><a href="{% url 'source_list' %}">← Към източниците</a></p>
+        <p><a href="{% url 'story_list' %}">← Към материалите</a></p>
+    </main>
+</body>
+</html>
+```

@@ -1,0 +1,20 @@
+html
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Нова бележка — StoryDesk</title>
+</head>
+<body>
+    <h1>Добавяне на бележка</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Запази бележката</button>
+    </form>
+
+    <p><a href="{% url 'note_list' %}">Към бележките</a></p>
+    <p><a href="{% url 'story_list' %}">Към материалите</a></p>
+</body>
+</html>

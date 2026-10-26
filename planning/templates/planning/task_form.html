@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Нова задача — StoryDesk</title>
+</head>
+<body>
+    <h1>Добавяне на задача</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Запази задачата</button>
+    </form>
+
+    <p><a href="{% url 'task_list' %}">Към задачите</a></p>
+</body>
+</html>

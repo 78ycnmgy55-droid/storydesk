@@ -1,0 +1,51 @@
+```html
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Източници — StoryDesk</title>
+</head>
+<body>
+    <header>
+        <h1>StoryDesk</h1>
+        <p>Източници за журналистическите материали</p>
+    </header>
+
+    <main>
+        <h2>Всички източници</h2>
+
+        <p>
+            <a href="{% url 'source_create' %}">+ Добави източник</a>
+        </p>
+
+        {% if sources %}
+            <ul>
+                {% for source in sources %}
+                    <li>
+                        <h3>{{ source.name }}</h3>
+                        <p>Вид: {{ source.get_source_type_display }}</p>
+
+                        {% if source.organization %}
+                            <p>Организация: {{ source.organization }}</p>
+                        {% endif %}
+
+                        {% if source.contact_info %}
+                            <p>Контакт: {{ source.contact_info }}</p>
+                        {% endif %}
+
+                        {% if source.notes %}
+                            <p>{{ source.notes }}</p>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Все още няма добавени източници.</p>
+        {% endif %}
+
+        <p><a href="{% url 'story_list' %}">← Към материалите</a></p>
+    </main>
+</body>
+</html>
+```

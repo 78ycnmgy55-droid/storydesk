@@ -1,0 +1,27 @@
+```html
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Бележки — StoryDesk</title>
+</head>
+<body>
+    <h1>Бележки към материалите</h1>
+
+    <p><a href="{% url 'note_create' %}">Добави бележка</a></p>
+
+    {% for note in notes %}
+        <article>
+            <h2>{{ note.title }}</h2>
+            <p>Материал: {{ note.story.title }}</p>
+            <p>{{ note.content }}</p>
+            <small>{{ note.created_at|date:"d.m.Y H:i" }}</small>
+        </article>
+    {% empty %}
+        <p>Все още няма бележки.</p>
+    {% endfor %}
+
+    <p><a href="{% url 'story_list' %}">Към материалите</a></p>
+</body>
+</html>
+```

@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>StoryDesk — Журналистически материали</title>
+</head>
+<body>
+    <header>
+        <h1>StoryDesk</h1>
+        <p>Твоят редакционен бележник</p>
+    </header>
+
+    <main>
+        <h2>Журналистически материали</h2>
+<p>
+    <form method="get">
+    <label for="status">Филтър по статус:</label>
+    <select name="status" id="status">
+        <option value="">Всички</option>
+        <option value="draft">Чернова</option>
+        <option value="in_progress">В процес</option>
+        <option value="published">Публикувана</option>
+    </select>
+
+    <label for="sort">Сортиране:</label>
+    <select name="sort" id="sort">
+        <option value="newest">Най-нови първо</option>
+        <option value="title">По заглавие</option>
+    </select>
+
+    <button type="submit">Приложи</button>
+</form>
+    <p>
+    <a href="{% url 'topic_create' %}">+ Добави тема</a>
+</p>
+<p>
+    <a href="{% url 'story_create' %}">+ Добави материал</a>
+</p>
+</p>
+        {% if stories %}
+            <ul>
+                {% for story in stories %}
+                    <li>
+                        <h3>
+                            <a href="{% url 'story_detail' story.pk %}">{{ story.title }}</a>
+                        </h3>
+                        <p>Тема: {{ story.topic }}</p>
+                        <p>Статус: {{ story.get_status_display }}</p>
+                        <p>{{ story.summary|default:"Няма добавено резюме." }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Все още няма материали. Скоро ще можеш да добавиш първия!</p>
+        {% endif %}
+    </main>
+</body>
+</html>

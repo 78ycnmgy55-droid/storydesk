@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <title>Изтриване — StoryDesk</title>
+</head>
+<body>
+    <h1>Изтриване на материал</h1>
+
+    <p>
+        Сигурен ли си, че искаш да изтриеш
+        „{{ story.title }}“?
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Да, изтрий</button>
+    </form>
+
+    <p>
+        <a href="{% url 'story_detail' story.pk %}">
+            Отказ
+        </a>
+    </p>
+</body>
+</html>
