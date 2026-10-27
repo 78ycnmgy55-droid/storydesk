@@ -9,6 +9,19 @@ class NoteForm(forms.ModelForm):
     class Meta:
         model = Note
         fields = ["story", "title", "content"]
+        error_messages = {
+            'story': {
+                'required': 'Моля, изберете материал за бележката.',
+                'invalid_choice': 'Избраният материал не е валиден.',
+            },
+            'title': {
+                'required': 'Моля, въведете заглавие на бележката.',
+                'max_length': 'Заглавието на бележката е твърде дълго.',
+            },
+            'content': {
+                'required': 'Моля, въведете съдържание на бележката.',
+            },
+        }
         labels = {
             "story": "Материал",
             "title": "Заглавие на бележката",

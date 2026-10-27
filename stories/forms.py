@@ -6,6 +6,12 @@ class TopicForm(forms.ModelForm):
     class Meta:
         model = Topic
         fields = ['name', 'description']
+        error_messages = {
+            'name': {
+                'required': 'Моля, въведете име на темата.',
+                'max_length': 'Името на темата е твърде дълго.',
+            },
+        }
         widgets = {
             'name': forms.TextInput(attrs={
                 'class': 'form-control',
@@ -30,6 +36,20 @@ class StoryForm(forms.ModelForm):
             'topic', 'title', 'summary',
             'status', 'deadline', 'sources'
         ]
+        error_messages = {
+            'topic': {
+                'required': 'Моля, изберете тема.',
+                'invalid_choice': 'Избраната тема не е валидна.',
+            },
+            'title': {
+                'required': 'Моля, въведете заглавие на материала.',
+                'max_length': 'Заглавието не може да е по-дълго от 200 символа.',
+            },
+            'status': {
+                'required': 'Моля, изберете статус.',
+                'invalid_choice': 'Моля, изберете валиден статус.',
+            },
+        }
         widgets = {
             'topic': forms.Select(attrs={'class': 'form-select'}),
             'title': forms.TextInput(attrs={

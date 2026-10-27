@@ -26,6 +26,16 @@ class TaskForm(forms.ModelForm):
         fields = [
             'story', 'title', 'description', 'due_date', 'is_completed'
         ]
+        error_messages = {
+            'story': {
+                'required': 'Моля, изберете материал за задачата.',
+                'invalid_choice': 'Избраният материал не е валиден.',
+            },
+            'title': {
+                'required': 'Моля, въведете заглавие на задачата.',
+                'max_length': 'Заглавието на задачата е твърде дълго.',
+            },
+        }
         labels = {
             'story': 'Материал',
             'title': 'Заглавие',
