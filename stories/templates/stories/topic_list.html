@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Теми | StoryDesk{% endblock %}
+{% block content %}
+<h2>Теми</h2>
+<p><a href="{% url 'topic_create' %}">+ Добави тема</a></p>
+{% for topic in topics %}
+<article>
+    <h3>{{ topic.name }}</h3>
+    {% if topic.description %}<p>{{ topic.description }}</p>{% endif %}
+    <p>Материали: {{ topic.stories.count }}</p>
+    <a href="{% url 'topic_edit' topic.pk %}">Редактирай</a> |
+    <a href="{% url 'topic_delete' topic.pk %}">Изтрий</a>
+</article>
+<hr>
+{% empty %}
+<p>Все още няма теми.</p>
+{% endfor %}
+{% endblock %}

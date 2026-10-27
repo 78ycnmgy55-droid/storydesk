@@ -1,37 +1,24 @@
-```html
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Нова тема — StoryDesk</title>
-</head>
-<body>
-    <header>
-        <h1>StoryDesk</h1>
-        <p>Организирай материалите си по теми</p>
-    </header>
+{% extends "base.html" %}
 
-    <main>
-        <h2>Добавяне на тема</h2>
+{% block title %}Нова тема | StoryDesk{% endblock %}
 
-        {% if success %}
-            <p style="color: green;">{{ success }}</p>
-        {% endif %}
+{% block content %}
+<h2>Добавяне на тема</h2>
 
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Запази темата</button>
-        </form>
+{% if success %}
+    <p>{{ success }}</p>
+{% endif %}
 
-        <p>
-            <a href="{% url 'topic_create' %}">Добави друга тема</a>
-        </p>
-        <p>
-            <a href="{% url 'story_list' %}">Обратно към материалите</a>
-        </p>
-    </main>
-</body>
-</html>
-```
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Запази темата</button>
+</form>
+
+<p>
+    <a href="{% url 'topic_create' %}">Добави друга тема</a>
+</p>
+<p>
+    <a href="{% url 'story_list' %}">Обратно към материалите</a>
+</p>
+{% endblock %}

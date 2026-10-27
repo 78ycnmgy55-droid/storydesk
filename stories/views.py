@@ -5,31 +5,24 @@ from .forms import StoryForm, TopicForm
 
 def story_list(request):
     stories = Story.objects.all()
-
     status = request.GET.get('status')
     if status:
         stories = stories.filter(status=status)
 
     sort = request.GET.get('sort', 'newest')
-
     if sort == 'title':
         stories = stories.order_by('title')
     else:
         stories = stories.order_by('-created_at')
 
-    context = {
+    return render(request, 'stories/story_list.html', {
         'stories': stories,
         'selected_status': status,
         'selected_sort': sort,
-    }
+    })
 
-    return render(request, 'stories/story_list.html', context)
 
 def story_create(request):
-    from django.shortcuts import render, redirect, get_object_or_404
-    def story_detail(request, pk):
-        story = get_object_or_404(Story, pk=pk)
-        return render(request, 'stories/story_detail.html', {'story': story})
     if request.method == 'POST':
         form = StoryForm(request.POST)
         if form.is_valid():
@@ -41,44 +34,25 @@ def story_create(request):
     return render(request, 'stories/story_form.html', {'form': form})
 
 
-# def topic_create(request):
-#     if request.method == 'POST':
-#         form = TopicForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('story_list')
-#     else:
-#         form = TopicForm()
-
-    return render(request, 'stories/topic_form.html', {'form': form})
 def topic_create(request):
     if request.method == 'POST':
         form = TopicForm(request.POST)
-
         if form.is_valid():
             form.save()
-            return render(
-                request,
-                'stories/topic_form.html',
-                {
-                    'form': TopicForm(),
-                    'success': 'Темата е записана успешно!'
-                }
-            )
+            return redirect('story_list')
     else:
         form = TopicForm()
 
-    return render(
-        request,
-        'stories/topic_form.html',
-        {'form': form}
-    )
+    return render(request, 'stories/topic_form.html', {'form': form})
+
+
 def story_detail(request, pk):
     story = get_object_or_404(Story, pk=pk)
     return render(request, 'stories/story_detail.html', {'story': story})
+
+
 def story_edit(request, pk):
     story = get_object_or_404(Story, pk=pk)
-
     if request.method == 'POST':
         form = StoryForm(request.POST, instance=story)
         if form.is_valid():
@@ -88,9 +62,10 @@ def story_edit(request, pk):
         form = StoryForm(instance=story)
 
     return render(request, 'stories/story_form.html', {'form': form})
+
+
 def story_delete(request, pk):
     story = get_object_or_404(Story, pk=pk)
-
     if request.method == 'POST':
         story.delete()
         return redirect('story_list')
@@ -98,5 +73,26 @@ def story_delete(request, pk):
     return render(
         request,
         'stories/story_confirm_delete.html',
-        {'story': story}
+        {'story': story},
     )
+
+def topic_list(request):
+    topics = Topic.objects.all().order_by('name')
+    return render(request, 'stories/topic_list.html', {'topics': topics})
+
+
+def topic_edit(request, pk):
+    topic = get_object_or_404(Topic, pk=pk)
+    form = TopicForm(request.POST or None, instance=topic)
+    if request.method == 'POST' and form.is_valid():
+        form.save()
+        return redirect('topic_list')
+    return render(request, 'stories/topic_form.html', {'form': form, 'topic': topic})
+
+
+def topic_delete(request, pk):
+    topic = get_object_or_404(Topic, pk=pk)
+    if request.method == 'POST':
+        topic.delete()
+        return redirect('topic_list')
+    return render(request, 'stories/topic_confirm_delete.html', {'topic': topic})

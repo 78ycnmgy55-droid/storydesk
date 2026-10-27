@@ -1,27 +1,28 @@
-```html
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <title>Бележки — StoryDesk</title>
-</head>
-<body>
-    <h1>Бележки към материалите</h1>
+{% extends "base.html" %}
 
-    <p><a href="{% url 'note_create' %}">Добави бележка</a></p>
+{% block title %}Бележки | StoryDesk{% endblock %}
 
-    {% for note in notes %}
-        <article>
-            <h2>{{ note.title }}</h2>
-            <p>Материал: {{ note.story.title }}</p>
-            <p>{{ note.content }}</p>
-            <small>{{ note.created_at|date:"d.m.Y H:i" }}</small>
-        </article>
-    {% empty %}
-        <p>Все още няма бележки.</p>
-    {% endfor %}
+{% block content %}
+<h2>Бележки към материалите</h2>
 
-    <p><a href="{% url 'story_list' %}">Към материалите</a></p>
-</body>
-</html>
-```
+<p><a href="{% url 'note_create' %}">+ Добави бележка</a></p>
+
+{% for note in notes %}
+    <article>
+        <h3>{{ note.title }}</h3>
+        <p>Материал: {{ note.story.title }}</p>
+        <p>{{ note.content }}</p>
+        <small>Създадена на: {{ note.created_at|date:"d.m.Y H:i" }}</small>
+        <p>
+        <a href="{% url 'note_edit' note.pk %}">Редактирай</a>
+        |
+        <a href="{% url 'note_delete' note.pk %}">Изтрий</a>
+</p>
+    </article>
+    <hr>
+{% empty %}
+    <p>Все още няма бележки.</p>
+{% endfor %}
+
+<p><a href="{% url 'story_list' %}">Към материалите</a></p>
+{% endblock %}

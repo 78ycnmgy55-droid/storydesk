@@ -1,28 +1,32 @@
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <title>Задачи — StoryDesk</title>
-</head>
-<body>
-    <h1>Задачи</h1>
 
-    <p><a href="{% url 'task_create' %}">Добави задача</a></p>
+{% extends "base.html" %}
 
-    {% for task in tasks %}
-        <article>
-            <h2>{{ task.title }}</h2>
-            <p>Материал: {{ task.story.title }}</p>
-            <p>{{ task.description }}</p>
-            <p>Статус: {% if task.is_completed %}Изпълнена{% else %}В процес{% endif %}</p>
-            {% if task.due_date %}
-                <p>Краен срок: {{ task.due_date|date:"d.m.Y H:i" }}</p>
-            {% endif %}
-        </article>
-    {% empty %}
-        <p>Все още няма задачи.</p>
-    {% endfor %}
+{% block title %}Задачи | StoryDesk{% endblock %}
 
-    <p><a href="{% url 'story_list' %}">Към материалите</a></p>
-</body>
-</html>
+{% block content %}
+<h2>Задачи</h2>
+<p><a href="{% url 'task_create' %}">+ Добави задача</a></p>
+
+{% for task in tasks %}
+<article>
+    <h3>{{ task.title }}</h3>
+    <p>Материал: {{ task.story.title }}</p>
+    <p>{{ task.description }}</p>
+    <p>Статус: {% if task.is_completed %}Изпълнена{% else %}В процес{% endif %}</p>
+
+    {% if task.pk %}
+        <p>
+            <a href="{% url 'task_edit' task.pk %}">Редактирай</a> |
+            <a href="{% url 'task_delete' task.pk %}">Изтрий</a>
+        </p>
+    {% endif %}
+
+    {% if task.due_date %}
+        <p>Краен срок: {{ task.due_date|date:"d.m.Y H:i" }}</p>
+    {% endif %}
+</article>
+<hr>
+{% empty %}
+<p>Все още няма задачи.</p>
+{% endfor %}
+{% endblock %}

@@ -1,31 +1,13 @@
-
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ story.title }} — StoryDesk</title>
-</head>
-<body>
-    <header>
-        <h1>StoryDesk</h1>
-        <p>Подробности за материала</p>
-    </header>
-
-    <main>
-        <h2>{{ story.title }}</h2>
-        <p><strong>Тема:</strong> {{ story.topic }}</p>
-        <p><strong>Статус:</strong> {{ story.get_status_display }}</p>
-        <p><strong>Резюме:</strong> {{ story.summary|default:"Няма добавено резюме." }}</p>
-        <p><strong>Краен срок:</strong> {{ story.deadline|default:"Не е зададен" }}</p>
-        <p><strong>Създаден на:</strong> {{ story.created_at|date:"d.m.Y H:i" }}</p>
-        <p>
-    <a href="{% url 'story_edit' story.pk %}">Редактирай материала</a>
-</p>
-        <p>
-    <a href="{% url 'story_delete' story.pk %}">Изтрий материала</a>
-</p>
-        <a href="{% url 'story_list' %}">Обратно към материалите</a>
-    </main>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}{{ story.title }} | StoryDesk{% endblock %}
+{% block content %}
+<h2>{{ story.title }}</h2>
+<p><strong>Тема:</strong> {{ story.topic }}</p>
+<p><strong>Статус:</strong> {{ story.get_status_display }}</p>
+<p><strong>Резюме:</strong> {{ story.summary|default:"Няма добавено резюме." }}</p>
+<p><strong>Краен срок:</strong> {{ story.deadline|default:"Не е зададен" }}</p>
+<p><strong>Създаден на:</strong> {{ story.created_at|date:"d.m.Y H:i" }}</p>
+<p><a href="{% url 'story_edit' story.pk %}">Редактирай материала</a></p>
+<p><a href="{% url 'story_delete' story.pk %}">Изтрий материала</a></p>
+<p><a href="{% url 'story_list' %}">Обратно към материалите</a></p>
+{% endblock %}

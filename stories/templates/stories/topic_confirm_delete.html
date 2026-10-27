@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Изтриване на тема | StoryDesk{% endblock %}
+{% block content %}
+<h2>Изтриване на тема</h2>
+<p>Сигурен ли си, че искаш да изтриеш „{{ topic.name }}“?</p>
+<p>Внимание: материалите, свързани с темата, също ще бъдат изтрити.</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Да, изтрий</button>
+    <a href="{% url 'topic_list' %}">Отказ</a>
+</form>
+{% endblock %}

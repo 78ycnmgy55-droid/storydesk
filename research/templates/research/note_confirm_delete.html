@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Потвърждение за изтриване | StoryDesk{% endblock %}
+
+{% block content %}
+<h2>Потвърждение за изтриване</h2>
+<p>Сигурен ли си, че искаш да изтриеш „{{ object }}“?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Да, изтрий</button>
+    <a href="{% url cancel_url %}">Отказ</a>
+</form>
+{% endblock %}

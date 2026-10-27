@@ -1,60 +1,49 @@
+{% extends "base.html" %}
+{% load storydesk_tags %}
 
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>StoryDesk — Журналистически материали</title>
-</head>
-<body>
-    <header>
-        <h1>StoryDesk</h1>
-        <p>Твоят редакционен бележник</p>
-    </header>
+{% block title %}Материали | StoryDesk{% endblock %}
 
-    <main>
-        <h2>Журналистически материали</h2>
-<p>
-    <form method="get">
+{% block content %}
+<h2>Журналистически материали</h2>
+
+<form method="get">
     <label for="status">Филтър по статус:</label>
     <select name="status" id="status">
         <option value="">Всички</option>
-        <option value="draft">Чернова</option>
-        <option value="in_progress">В процес</option>
-        <option value="published">Публикувана</option>
+        <option value="draft" {% if request.GET.status == "draft" %}selected{% endif %}>Чернова</option>
+        <option value="in_progress" {% if request.GET.status == "in_progress" %}selected{% endif %}>В процес</option>
+        <option value="published" {% if request.GET.status == "published" %}selected{% endif %}>Публикувана</option>
     </select>
 
     <label for="sort">Сортиране:</label>
     <select name="sort" id="sort">
-        <option value="newest">Най-нови първо</option>
-        <option value="title">По заглавие</option>
+        <option value="newest" {% if request.GET.sort == "newest" %}selected{% endif %}>Най-нови първо</option>
+        <option value="title" {% if request.GET.sort == "title" %}selected{% endif %}>По заглавие</option>
     </select>
 
     <button type="submit">Приложи</button>
 </form>
-    <p>
-    <a href="{% url 'topic_create' %}">+ Добави тема</a>
-</p>
+
 <p>
+    <a href="{% url 'topic_create' %}">+ Добави тема</a>
+    |
     <a href="{% url 'story_create' %}">+ Добави материал</a>
 </p>
-</p>
-        {% if stories %}
-            <ul>
-                {% for story in stories %}
-                    <li>
-                        <h3>
-                            <a href="{% url 'story_detail' story.pk %}">{{ story.title }}</a>
-                        </h3>
-                        <p>Тема: {{ story.topic }}</p>
-                        <p>Статус: {{ story.get_status_display }}</p>
-                        <p>{{ story.summary|default:"Няма добавено резюме." }}</p>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>Все още няма материали. Скоро ще можеш да добавиш първия!</p>
-        {% endif %}
-    </main>
-</body>
-</html>
+
+{% if stories %}
+    <ul>
+        {% for story in stories %}
+            <li>
+                <h3>
+                    <a href="{% url 'story_detail' story.pk %}">{{ story.title }}</a>
+                </h3>
+                <p>Тема: {{ story.topic }}</p>
+                <p>Статус: {{ story.status|status_label }}</p>
+                <p>{{ story.summary|default:"Няма добавено резюме." }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Все още няма материали. Добави първия си материал!</p>
+{% endif %}
+{% endblock %}
